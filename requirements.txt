@@ -1,0 +1,11 @@
+python-dotenv
+azure-search-documents==11.6.0b4
+azure-identity
+openai
+azure-ai-documentintelligence
+tiktoken
+werkzeug
+tenacity
+autogen-agentchat==0.4.0dev1
+autogen-core==0.4.0dev1
+azure-monitor-opentelemetry-exporter
