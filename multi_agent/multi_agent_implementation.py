@@ -48,6 +48,7 @@ class GroupChatMessages(BaseModel):
     conversation_id: str
 
 
+
 async def handle_transaction_account_info_message(self, message: List[LLMMessage], conversation_id: str, ctx: MessageContext) -> None:
     print("\033[32m" + "-" * 20 + "\033[0m")
     print(f"Received by {self._description}:{message}")
@@ -72,7 +73,7 @@ async def handle_transaction_account_info_message(self, message: List[LLMMessage
                                 and tool result is: {messages[-2].content[0].content}\n</Context>"""
         self._chat_history.append(AssistantMessage(content=formated_message, source="tool_use_agent"))
    
-    await self.publish_message(GroupChatMessages(body=[self._chat_history[-1]], conversation_id=conversation_id), DefaultTopicId("group_chat_any_topic"))
+    await self.publish_message(GroupChatMessages(body=[self._chat_history[-1]], conversation_id=conversation_id), DefaultTopicId("group_chat_any_topic", source=conversation_id))
 
 
 
@@ -175,7 +176,7 @@ class GroupChatManager(RoutedAgent):
 
         Always respond in json format. DO NOT USE ```json or ``` in your response. 
 
-        {"agentType": "One of the above agent types", "body": "message to be sent to the agent or user as json string."}
+        {"agentType": "One of the above agent types", "body": "user original question as json string."}
 
         """)
         self._chat_history : List[LLMMessage]  = [self._system_message]
@@ -196,7 +197,7 @@ class GroupChatManager(RoutedAgent):
         sanitized_string = self.sanitize_json_string(completion.content)
         agent_type =  json.loads(sanitized_string)['agentType']        
         agent_class: Type[TransactionAccountInfo] = globals().get(agent_type)
-        await self.publish_message(agent_class(body=self._chat_history[1:], conversation_id=message.conversation_id), DefaultTopicId(type="paypal_support_topic"))
+        await self.publish_message(agent_class(body=self._chat_history[1:], conversation_id=message.conversation_id), DefaultTopicId(type="paypal_support_topic", source=message.conversation_id))
 
 
 
