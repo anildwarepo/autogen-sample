@@ -29,7 +29,7 @@
           "country_code": "US"
         }
       },
-      "payment_method": "PayPal"
+      "payment_method": "transify"
     },
     "payee": {
       "merchant_id": "SELLER123456789",
@@ -72,12 +72,12 @@
     },
     "links": [
       {
-        "href": "https://api.paypal.com/v1/payments/transaction/5KL7643HJY0987654",
+        "href": "https://api.transify.com/v1/payments/transaction/5KL7643HJY0987654",
         "rel": "self",
         "method": "GET"
       },
       {
-        "href": "https://api.paypal.com/v1/payments/transaction/5KL7643HJY0987654/refund",
+        "href": "https://api.transify.com/v1/payments/transaction/5KL7643HJY0987654/refund",
         "rel": "refund",
         "method": "POST"
       }

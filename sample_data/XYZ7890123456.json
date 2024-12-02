@@ -41,12 +41,12 @@
     ],
     "links": [
       {
-        "href": "https://api.paypal.com/v1/accounts/XYZ7890123456",
+        "href": "https://api.transify.com/v1/accounts/XYZ7890123456",
         "rel": "self",
         "method": "GET"
       },
       {
-        "href": "https://api.paypal.com/v1/accounts/XYZ7890123456/transactions",
+        "href": "https://api.transify.com/v1/accounts/XYZ7890123456/transactions",
         "rel": "transactions",
         "method": "GET"
       }

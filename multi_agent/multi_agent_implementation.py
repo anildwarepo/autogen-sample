@@ -77,7 +77,7 @@ async def handle_transaction_account_info_message(self, message: List[LLMMessage
 
 
 
-@type_subscription(topic_type="paypal_support_topic")
+@type_subscription(topic_type="Transify_support_topic")
 class FinalResponderAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
             super().__init__("A Final Responder Agent")
@@ -85,7 +85,8 @@ class FinalResponderAgent(RoutedAgent):
             
             self._chat_history : List[LLMMessage]  = [SystemMessage(
             """
-            You are Paypal Support reviewer agent. You will be provided with Conversation History between users and multiple agents. 
+            You are Transify Support reviewer agent. Transify is an online payment platform.
+            You will be provided with Conversation History between users and multiple agents. 
             You need to review the conversation and provide the final response to the user.
             If the question has been answered correctly, state the complete answer. Otherwise ask the user for required information based on the conversation history.
             """)]
@@ -108,13 +109,14 @@ class FinalResponderAgent(RoutedAgent):
         await notify_result(message, completion.content)
         del self._chat_history[1:]
 
-@type_subscription(topic_type="paypal_support_topic")
+@type_subscription(topic_type="Transify_support_topic")
 class AccountInfoAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, tool_schema: List[ToolSchema], tool_agent_type: str) -> None:
         super().__init__("A Account Info Agent Agent")
         self._model_client = model_client
         self._system_message = SystemMessage("""
-        You are Paypal Support Agent. You can provide information about the account details. 
+        You are Transify Support Agent. Transify is an online payment platform.
+        You can provide information about the account details. 
         You need to know the 'account number' to provide the account details.
         If the 'account number' is provided use the get_account_info tool to get the account details.
         Format the response with 'Account Details:'.
@@ -132,13 +134,14 @@ class AccountInfoAgent(RoutedAgent):
         await handle_transaction_account_info_message(self, self._chat_history, message.conversation_id, ctx)
 
 
-@type_subscription(topic_type="paypal_support_topic")
+@type_subscription(topic_type="Transify_support_topic")
 class TransactionInfoAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, tool_schema: List[ToolSchema], tool_agent_type: str) -> None:
         super().__init__("A Transaction Info Agent Agent")
         self._model_client = model_client
         self._system_message = SystemMessage("""
-        You are Paypal Support Agent. You can provide information about the transaction details for the account.
+        You are Transify Support Agent. Transify is an online payment platform.
+        You can provide information about the transaction details for the account.
         You need to know the 'account number' to provide the transaction details.
         If the 'account number' is provided use the get_transaction_details tool to get the transaction details.
         Format the response with 'Transaction Details:'.
@@ -163,10 +166,11 @@ class GroupChatManager(RoutedAgent):
         self._model_client = model_client
         self._system_message = SystemMessage(
         """
-        You are a Paypal Support Agent Manager. You can help users with their Paypal related queries. 
-        You need to respond only to queries related to Paypal and nothing else. 
-        If the question is not related to Paypal, state that you only respond to Paypal related queries and cannot answer this question.        
-        If this is Paypal related question. you need to find the appropriate agent based on the question as below:
+        You are a Transify Support Agent Manager. Transify is an online payment platform.
+        You can help users with their Transify related queries. 
+        You need to respond only to queries related to Transify and nothing else. 
+        If the question is not related to Transify, state that you only respond to Transify related queries and cannot answer this question.        
+        If this is Transify related question. you need to find the appropriate agent based on the question as below:
         Agent Types:
         
         1. AccountInfo: If the question is about account details.
@@ -197,7 +201,7 @@ class GroupChatManager(RoutedAgent):
         sanitized_string = self.sanitize_json_string(completion.content)
         agent_type =  json.loads(sanitized_string)['agentType']        
         agent_class: Type[TransactionAccountInfo] = globals().get(agent_type)
-        await self.publish_message(agent_class(body=self._chat_history[1:], conversation_id=message.conversation_id), DefaultTopicId(type="paypal_support_topic", source=message.conversation_id))
+        await self.publish_message(agent_class(body=self._chat_history[1:], conversation_id=message.conversation_id), DefaultTopicId(type="Transify_support_topic", source=message.conversation_id))
 
 
 
@@ -279,9 +283,9 @@ async def run_agents(runtime):
         group_chat_result = "An error occurred while waiting for the response."
 
     print(group_chat_result)
-    #agent_response = await runtime.send_message(PaypalHelpAgentAMessage(body=UserMessage(content="Plan a 3 day road trip to zion national park", source="user")), recipient=AgentId(type="PaypalHelpAgent", key="paypal_user1")) 
+    #agent_response = await runtime.send_message(TransifyHelpAgentAMessage(body=UserMessage(content="Plan a 3 day road trip to zion national park", source="user")), recipient=AgentId(type="TransifyHelpAgent", key="Transify_user1")) 
     #print(agent_response)
-    #agent_response = await runtime.send_message(PaypalHelpAgentAMessage(body=UserMessage(content="how to report Fraud", source="user")), recipient=AgentId(type="PaypalHelpAgent", key="paypal_user1")) 
+    #agent_response = await runtime.send_message(TransifyHelpAgentAMessage(body=UserMessage(content="how to report Fraud", source="user")), recipient=AgentId(type="TransifyHelpAgent", key="Transify_user1")) 
     #print(agent_response)
 
 #asyncio.run(run_agents(runtime))

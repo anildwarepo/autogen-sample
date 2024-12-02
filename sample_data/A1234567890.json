@@ -24,12 +24,12 @@
   "updated_at": "2024-10-09T10:20:15Z",
   "links": [
     {
-      "href": "https://api.paypal.com/v1/accounts/A1234567890",
+      "href": "https://api.transify.com/v1/accounts/A1234567890",
       "rel": "self",
       "method": "GET"
     },
     {
-      "href": "https://api.paypal.com/v1/accounts/A1234567890/balance",
+      "href": "https://api.transify.com/v1/accounts/A1234567890/balance",
       "rel": "balance",
       "method": "GET"
     }

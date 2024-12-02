@@ -19,7 +19,7 @@ def get_model_client() -> AzureOpenAIChatCompletionClient:
     model=deployed_model,
     api_version="2024-02-01",
     azure_endpoint=endpoint,
-    azure_ad_token_provider=token_provider,
+    azure_ad_token_provider=token_provider,    
     model_capabilities={
             "vision":True,
             "function_calling":True,

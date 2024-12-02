@@ -23,7 +23,7 @@
       "email": "seller@example.com",
       "name": "Alice's Art Supplies"
     },
-    "payment_method": "PayPal",
+    "payment_method": "transify",
     "create_time": "2024-09-29T12:45:30Z",
     "update_time": "2024-09-29T12:46:45Z",
     "transaction_details": {
@@ -56,7 +56,7 @@
     },
     "links": [
       {
-        "href": "https://api.paypal.com/v1/payments/transaction/9HX25435AB0123456",
+        "href": "https://api.transify.com/v1/payments/transaction/9HX25435AB0123456",
         "rel": "self",
         "method": "GET"
       }
